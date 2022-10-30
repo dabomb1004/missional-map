@@ -1,58 +1,43 @@
 import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+import styled from '@emotion/styled';
+import mapboxgl from 'mapbox-gl';
 import './App.css';
 
-function App() {
+const MAPBOX_CONTAINER_ID = 'mapbox_container';
+
+export default function App() {
+  const mapContainer = React.useRef(null);
+
+  React.useEffect(() => {
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYWxleHdhbGV4IiwiYSI6ImNsOW5tYXA2ODAwZDYzdXJvOG5tZ3ZiczIifQ.ta2bUUDUuLO5YOK_rgxKAw';
+    const map = new mapboxgl.Map({
+      container: MAPBOX_CONTAINER_ID, // container ID
+      style: 'mapbox://styles/mapbox/navigation-night-v1', // style URL
+      center: [-74.5, 40], // starting position [lng, lat]
+      zoom: 0, // starting zoom
+      projection: { name: "globe" },
+    });
+
+    map.on('style.load', () => {
+      map.setFog({}); // Set the default atmosphere style
+    });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <AppContainer>
+      <MapContainer id={MAPBOX_CONTAINER_ID} />
+    </AppContainer>
   );
 }
 
-export default App;
+const AppContainer = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background: black;
+`;
+
+const MapContainer = styled.div`
+  height: 100%;
+  width: 100%;
+`;
+
