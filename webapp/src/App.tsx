@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import mapboxgl from 'mapbox-gl';
-import './App.css';
 
 const MAPBOX_CONTAINER_ID = 'mapbox_container';
 
