@@ -11,8 +11,8 @@ export default function App() {
     mapboxgl.accessToken = 'pk.eyJ1IjoiYWxleHdhbGV4IiwiYSI6ImNsOW5tYXA2ODAwZDYzdXJvOG5tZ3ZiczIifQ.ta2bUUDUuLO5YOK_rgxKAw';
     const map = new mapboxgl.Map({
       container: MAPBOX_CONTAINER_ID, // container ID
-      // style: 'mapbox://styles/alexwalex/cl9vyfkrz000014mwehtqslty', // style URL
-      style: 'mapbox://styles/mapbox/navigation-night-v1', // style URL
+      style: 'mapbox://styles/alexwalex/cl9vyfkrz000014mwehtqslty', // style URL
+      // style: 'mapbox://styles/mapbox/navigation-night-v1', // style URL
       center: [-74.5, 40], // starting position [lng, lat]
       zoom: 4, // starting zoom
       projection: { name: "globe" },
