@@ -1,10 +1,15 @@
 import React, { useRef } from 'react';
 import styled from '@emotion/styled';
 import mapboxgl from 'mapbox-gl';
+import services from "./services";
+import data from "./types/countries";
+import { useEffect } from "react";
 
 const MAPBOX_CONTAINER_ID = 'mapbox_container';
 
 export default function App() {
+
+  //console.log((services.get("us")));//change to fetch
   let popup: any = null;
   var map = useRef(null);
 
@@ -35,6 +40,18 @@ export default function App() {
           .setHTML(`${e.features[0]?.properties?.name}`)
           .addTo(map.current);
 
+        const api = async () => {
+          var id = e.features[0]?.properties["iso_3166_1"];
+          const data = await fetch(`http://api.joshuaproject.net/v1/countries/${id}.json?api_key=60dac3ed6d25`, {
+            method: "GET"
+          });
+          const jsonData = await data.json();
+          console.log(jsonData[0]["Capital"]);
+        };
+
+        api();
+
+        console.log(e.features[0]?.properties["iso_3166_1"]);
       });
     });
 
