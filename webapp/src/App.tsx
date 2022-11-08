@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from '@emotion/styled';
 import mapboxgl from 'mapbox-gl';
 
@@ -6,10 +6,13 @@ const MAPBOX_CONTAINER_ID = 'mapbox_container';
 
 export default function App() {
   let popup: any = null;
+  var map = useRef(null);
 
   React.useEffect(() => {
+    if (map.current) return;
+
     mapboxgl.accessToken = 'pk.eyJ1IjoiYWxleHdhbGV4IiwiYSI6ImNsOW5tYXA2ODAwZDYzdXJvOG5tZ3ZiczIifQ.ta2bUUDUuLO5YOK_rgxKAw';
-    const map = new mapboxgl.Map({
+    map.current = new mapboxgl.Map({
       container: MAPBOX_CONTAINER_ID, // container ID
       style: 'mapbox://styles/alexwalex/cl9vyfkrz000014mwehtqslty', // style URL
       // style: 'mapbox://styles/mapbox/navigation-night-v1', // style URL
@@ -18,19 +21,19 @@ export default function App() {
       projection: { name: "globe" },
     });
 
-    map.on('style.load', () => {
-      map.setFog({}); // Set the default atmosphere style
+    map.current.on('style.load', () => {
+      map.current.setFog({}); // Set the default atmosphere style
     });
 
-    map.on('load', () => {
-      map.on('click', 'country-boundaries', (e: any) => {
+    map.current.on('load', () => {
+      map.current.on('click', 'country-boundaries', (e: any) => {
         if (popup) {
           popup.remove();
         }
         popup = new mapboxgl.Popup({ closeOnClick: false })
           .setLngLat([e.lngLat.wrap().lng, e.lngLat.wrap().lat])
           .setHTML(`${e.features[0]?.properties?.name}`)
-          .addTo(map);
+          .addTo(map.current);
 
       });
     });
@@ -38,9 +41,14 @@ export default function App() {
   }, []);
 
   return (
-    <AppContainer>
-      <MapContainer id={MAPBOX_CONTAINER_ID} />
-    </AppContainer>
+    <div>
+      <div className="sidenav">
+        <a href="#">Home</a>
+      </div>
+      <AppContainer className="mapboxApp">
+        <MapContainer id={MAPBOX_CONTAINER_ID} />
+      </AppContainer>
+    </div>
   );
 }
 
