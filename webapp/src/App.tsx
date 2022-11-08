@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import styled from '@emotion/styled';
 import mapboxgl from 'mapbox-gl';
-import services from "./services";
 import data from "./types/countries";
 import { useEffect } from "react";
 
